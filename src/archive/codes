@@ -1,0 +1,18 @@
+@GetMapping("/hello")
+    public Map<String, String> sayHello(){
+        Map<String, String > response = new HashMap<>();
+        response.put("message", "Hello welcome to your own API, Teguh!");
+        response.put("status", "Success");
+
+        return response;
+    }
+
+    @GetMapping("/motivate")
+    public Map<String, String> sayHelloo(){
+        Map<String, String> response = new HashMap<>();
+
+        response.put("motivation", "Ini adalah pembelajaran mula-mula, you can do better");
+        response.put("status", "never surrender");
+
+        return response;
+    }
