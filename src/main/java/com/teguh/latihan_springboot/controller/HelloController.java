@@ -19,13 +19,24 @@ public class HelloController {
     //1. GET ALL PRODUK DARI DATABASE
     @GetMapping("/produk")
     public List<Product> getAllProduct(){
-        return productRepository.findAll(); // Bawaan JPA: SELECT * FROM tb_produk
+        //SELECT * FROM tb_produk;
+        return productRepository.findAll();
     }
 
-    //2. SIMPAN PRODUK BARU KE DATABASE
+    //2. CARI PRODUK BERDASARKAN ID
+    @GetMapping("/produk/{id}")
+    public Product getProductById(@PathVariable Long id){
+        // SELECT * FROM tb_produk
+        // WHERE id = {id};
+        return productRepository.findById(id).orElse(null);
+    }
+
+    //3. SIMPAN PRODUK BARU KE DATABASE
     @PostMapping("/produk")
     public Map<String, Object> tambahProduk(@RequestBody Product product){
-        Product produkTersimpan = productRepository.save(product); // Bawaan JPA: INSERT INTO tb_produk
+
+        // INSERT INTO tb_produk(nama, harga)
+        Product produkTersimpan = productRepository.save(product);
 
         Map<String, Object> response = new HashMap<>();
         response.put("message", "Produk berhasil disimpan ke MySQL!");
