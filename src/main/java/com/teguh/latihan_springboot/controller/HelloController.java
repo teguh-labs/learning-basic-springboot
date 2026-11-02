@@ -45,4 +45,47 @@ public class HelloController {
         return response;
     }
 
+    //4. UPDATE PRODUK YANG SUDAH ADA
+    @PutMapping("/produk/{id}")
+    public Map<String, Object> updateProduk(@PathVariable Long id, @RequestBody Product detailProduct){
+        Product existProduct = productRepository.findById(id).orElse(null);
+
+        Map<String, Object> response = new HashMap<>();
+
+        if(existProduct != null){
+            existProduct.setNama(detailProduct.getNama());
+            existProduct.setHarga(detailProduct.getHarga());
+
+            /*
+                UPDATE tb_product
+                SET nama = ' '
+                    harga = ' '
+                WHERE id = {id};
+             */
+            Product updatedProduct = productRepository.save(existProduct);
+
+            response.put("message", "Produk berhasil di-update!");
+            response.put("data", updatedProduct);
+        } else {
+            response.put("message", "Produk dengan ID = " + id + " tidak ditemukan");
+        }
+
+        return response;
+    }
+
+    //5. HAPUS PRODUK DENGAN ID
+    @DeleteMapping("/produk/{id}")
+    public Map<String, Object> deleteProduct(@PathVariable Long id){
+        Map<String, Object> response = new HashMap<>();
+
+        if(productRepository.existsById(id)){
+            productRepository.deleteById(id);
+            response.put("message", "Produk dengan ID = " + id + " Berhasil dihapus!");
+        } else {
+            response.put("message", "Produk tidak ditemukan!");
+        }
+
+        return response;
+    }
+
 }
